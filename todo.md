@@ -4,11 +4,11 @@
 	- [X] Caching
 	- [X] Validation
 	- [X] Closures
-- [ ] Metalint it
-- [ ] Other tasks
-	- [ ] Move pages to data/
-	- [ ] Redirect to /view/FrontPage
-	- [ ] Spruce it up
+- [X] Metalint it
+- [O] Other tasks
+	- [X] Move pages to data/
+	- [X] Redirect to /view/FrontPage
+	- [X] Spruce it up
 	- [ ] inter-page linking
 
 - [ ] Markdown rendering

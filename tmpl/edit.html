@@ -1,6 +1,24 @@
-<h1>Editing {{.Title}}</h1>
+<!DOCTYPE html>
+<html lang="en"><head>
+		<title>{{.Title}}</title>
+		<link rel="stylesheet" href="/static/spectre.min.css">
+		<link rel="stylesheet" href="/static/styles.css">
+	</head>
+	<body>
+		<div class="container grid-md">
 
-<form action="/save/{{.Title}}" method="POST">
-	<div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
-	<div><input type="submit" value="Save"></div>
-</form>
+			<header class="navbar">
+				<section class="navbar-section">
+					<h1>{{.Title}}</h1>
+				</section>
+			</header>
+
+			<div class="form-group">			<form action="/save/{{.Title}}" method="POST">
+				<div><textarea class="form-input" name="body" rows="30">{{printf "%s" .Body}}</textarea></div>
+				<input type="submit" value="Save" class="form-input btn btn-primary">
+			</form>
+			</div>
+
+		</div>
+	</body></html>
+

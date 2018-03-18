@@ -1,0 +1,11 @@
+.container {
+	margin-top: 10px;
+}
+
+.navbar-section h1 {
+	margin-bottom: 0px !important;
+}
+
+.navbar {
+	margin-bottom: .7em;
+}

@@ -1,4 +1,23 @@
-<h1>{{.Title}}</h1>
+<!DOCTYPE html>
+<html lang="en"><head>
+		<title>{{.Title}}</title>
+		<link rel="stylesheet" href="/static/spectre.min.css">
+		<link rel="stylesheet" href="/static/styles.css">
+	</head>
+	<body>
+		<div class="container grid-md">
 
-<p>[<a href="/edit/{{.Title}}">edit</a>]</p>
-<div>{{printf "%s" .Body}}</div>
+			<header class="navbar">
+				<section class="navbar-section">
+					<h1>{{.Title}}</h1>
+				</section>
+				<section class="navbar-section">
+					<a href="/edit/{{.Title}}" class="btn">Edit</a>
+				</section>
+			</header>
+
+			<article>
+				{{printf "%s" .Body}}
+			</article>
+		</div>
+	</body></html>

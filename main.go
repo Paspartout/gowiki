@@ -13,6 +13,7 @@ const (
 	extension      = ".md"
 	templatePath   = "tmpl/"
 	dataPath       = "data/"
+	staticPath     = "./static/"
 	frontPageTitle = "FrontPage"
 )
 
@@ -21,6 +22,7 @@ var templates = template.Must(template.ParseFiles(
 	templatePath+"view.html"))
 
 var validPath = regexp.MustCompile("^/(view|edit|save)/([a-zA-Z0-9]+)$")
+var validStaticPath = regexp.MustCompile("^/static/([a-zA-Z0-9.]+.css)$")
 
 // Page represents a page of the wiki
 type Page struct {
@@ -106,8 +108,10 @@ func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(staticPath))))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 	})
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
