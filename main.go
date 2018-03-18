@@ -1,18 +1,19 @@
 package main
 
 import (
-	"errors"
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 )
 
 const (
-	extension    = ".md"
-	templatePath = "tmpl/"
+	extension      = ".md"
+	templatePath   = "tmpl/"
+	dataPath       = "data/"
+	frontPageTitle = "FrontPage"
 )
 
 var templates = template.Must(template.ParseFiles(
@@ -28,12 +29,25 @@ type Page struct {
 }
 
 func (p *Page) save() error {
-	filename := p.Title + extension
-	return ioutil.WriteFile(filename, p.Body, 0600)
+	filename := dataPath + p.Title + extension
+	err := ioutil.WriteFile(filename, p.Body, 0600)
+	_, isPerr := err.(*os.PathError)
+	if err != nil && isPerr {
+		// Try to fix path error by making dataPath directory
+		err = os.Mkdir(dataPath, 0700)
+		if err != nil {
+			return err
+		}
+		log.Printf("Creating %s directory for pages", dataPath)
+		return p.save()
+	} else if err != nil {
+		return err
+	}
+	return nil
 }
 
 func loadPage(title string) (*Page, error) {
-	filename := title + extension
+	filename := dataPath + title + extension
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -46,15 +60,6 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-}
-
-func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
-	m := validPath.FindStringSubmatch(r.URL.Path)
-	if m == nil {
-		http.NotFound(w, r)
-		return "", errors.New("Invalid Page Title")
-	}
-	return m[2], nil
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -98,10 +103,11 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
-	fmt.Println("gowiki")
-
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
+	})
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
