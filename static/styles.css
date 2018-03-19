@@ -1,11 +1,9 @@
-.container {
-	margin-top: 10px;
+html,body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  background: #F0F2F4;
 }
 
-.navbar-section h1 {
-	margin-bottom: 0px !important;
-}
-
-.navbar {
-	margin-bottom: .7em;
+.note {
+	margin-top: 1rem;
 }

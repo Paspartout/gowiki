@@ -1,16 +1,49 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-		<title>All Pages</title>
-		<link rel="stylesheet" href="/static/spectre.min.css">
-		<link rel="stylesheet" href="/static/styles.css">
-	</head>
-	<body>
-		<div class="container grid-md">
-			<h1>All Pages</h1>
-			<ul>
-			{{range .}}
-			<li><a href="{{.}}">{{ . }}</a></li>
-			{{end}}
-			</ul>
-		</div>
-	</body></html>
+<html lang="en">
+<head>
+	<title>All Pages</title>
+	<link href="/static/bulma.css" rel="stylesheet"/>
+	<link href="/static/styles.css" rel="stylesheet"/>
+</head>
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+	<a class="navbar-item" href="/">
+		<div class="subtitle">GoWiki</div>
+    </a>
+
+  </div>
+  <div class="navbar-menu">
+	  <div class="navbar-end">
+	 <a class="navbar-item" href="/">
+        Front Page
+      </a>
+	 <a class="navbar-item" href="/pages">
+		 All Pages
+      </a>
+	  </div>
+  </div>
+</nav>
+
+<div class="container note">
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+	All Pages
+    </p>
+  </header>
+
+  <div class="card-content">
+    <div class="content">
+		{{range .}}
+		<li><a href="/view/{{.}}">{{ . }}</a></li>
+		{{end}}
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

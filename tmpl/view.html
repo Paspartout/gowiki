@@ -1,23 +1,50 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-		<title>{{.Title}}</title>
-		<link rel="stylesheet" href="/static/spectre.min.css">
-		<link rel="stylesheet" href="/static/styles.css">
-	</head>
-	<body>
-		<div class="container grid-md">
+<html lang="en">
+<head>
+	<title>{{.Title}}</title>
+	<link href="/static/bulma.css" rel="stylesheet"/>
+	<link href="/static/styles.css" rel="stylesheet"/>
+</head>
 
-			<header class="navbar">
-				<section class="navbar-section">
-					<h1>{{.Title}}</h1>
-				</section>
-				<section class="navbar-section">
-					<a href="/edit/{{.Title}}" class="btn">Edit</a>
-				</section>
-			</header>
+<body>
 
-			<article>
-				{{.Body}}
-			</article>
-		</div>
-	</body></html>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+	<a class="navbar-item" href="/">
+		<div class="subtitle">GoWiki</div>
+    </a>
+
+  </div>
+  <div class="navbar-menu">
+	  <div class="navbar-end">
+	 <a class="navbar-item" href="/">
+        Front Page
+      </a>
+	 <a class="navbar-item" href="/pages">
+		 All Pages
+      </a>
+	  </div>
+  </div>
+</nav>
+
+<div class="container note">
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+	{{.Title}}
+    </p>
+	<a class="card-header-icon" href="/edit/{{.Title}}">Edit</a>
+
+  </header>
+  <div class="card-content">
+    <div class="content">
+		<article class="content article-body">
+		  {{.Body}}
+		</article>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>

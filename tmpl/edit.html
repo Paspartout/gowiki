@@ -1,24 +1,56 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-		<title>{{.Title}}</title>
-		<link rel="stylesheet" href="/static/spectre.min.css">
-		<link rel="stylesheet" href="/static/styles.css">
-	</head>
-	<body>
-		<div class="container grid-md">
+<html lang="en">
+<head>
+	<title>{{.Title}}</title>
+	<link href="/static/bulma.css" rel="stylesheet"/>
+	<link href="/static/styles.css" rel="stylesheet"/>
+</head>
 
-			<header class="navbar">
-				<section class="navbar-section">
-					<h1>{{.Title}}</h1>
-				</section>
-			</header>
+<body>
 
-			<div class="form-group">			<form action="/save/{{.Title}}" method="POST">
-				<div><textarea class="form-input" name="body" rows="30">{{printf "%s" .Body}}</textarea></div>
-				<input type="submit" value="Save" class="form-input btn btn-primary">
-			</form>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+	<a class="navbar-item" href="/">
+		<div class="subtitle">GoWiki</div>
+    </a>
+
+  </div>
+  <div class="navbar-menu">
+	  <div class="navbar-end">
+	 <a class="navbar-item" href="/">
+        Front Page
+      </a>
+	 <a class="navbar-item" href="/pages">
+		 All Pages
+      </a>
+	  </div>
+  </div>
+</nav>
+
+<div class="container note">
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+	{{.Title}}
+    </p>
+
+  </header>
+  <div class="card-content">
+    <div class="content">
+		<form action="/save/{{.Title}}" method="POST">
+			<div class="field">
+			  <div class="control">
+				<textarea name="body" class="textarea" placeholder="Page Text" rows="30">{{printf "%s" .Body}}</textarea>
+			  </div>
 			</div>
+			<input type="submit" value="Save" class="button is-primary">
+		</form>
+    </div>
+  </div>
+</div>
+</div>
 
-		</div>
-	</body></html>
+</div>
 
+</body>
+</html>
