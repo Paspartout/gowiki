@@ -1,13 +1,15 @@
 package main
 
 import (
-	"html"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
+
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
 const (
@@ -22,9 +24,8 @@ var templates = template.Must(template.ParseFiles(
 	templatePath+"edit.html",
 	templatePath+"view.html"))
 
-var validPath = regexp.MustCompile("^/(view|edit|save)/([a-zA-Z0-9]+)$")
-var validStaticPath = regexp.MustCompile("^/static/([a-zA-Z0-9.]+.css)$")
-var linkRegex = regexp.MustCompile("\\[([a-zA-Z0-9]+)\\]")
+var validPath = regexp.MustCompile(`^/(view|edit|save)/([a-zA-Z0-9]+)$`)
+var linkRegex = regexp.MustCompile(`\[([a-zA-Z0-9]+)\]`)
 
 // Page represents a page of the wiki
 type Page struct {
@@ -32,7 +33,7 @@ type Page struct {
 	Body  []byte
 }
 
-// RenderedPage represents a page that has been renderd to html
+// RenderedPage represents a page that has been rendered to html
 type RenderedPage struct {
 	Title string
 	Body  template.HTML
@@ -79,14 +80,18 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 		return
 	}
 
-	// Linking(Later: Markdown rendering)
-	bodyEscaped := html.EscapeString(string(p.Body))
-	bodyRendered := linkRegex.ReplaceAllStringFunc(bodyEscaped, func(link string) string {
-		linkTitle := string(link)
-		linkTitle = linkTitle[1 : len(linkTitle)-1]
-		linkStr := "<a href=\"" + linkTitle + "\">" + linkTitle + "</a>"
-		return linkStr
-	})
+	// Markdown rendering
+	bodyRendered := blackfriday.Run(p.Body)
+
+	// Interlinking
+	bodyRendered = linkRegex.ReplaceAllFunc(bodyRendered,
+		func(link []byte) []byte {
+			linkTitle := string(link)
+			linkTitle = linkTitle[1 : len(linkTitle)-1]
+			linkStr := "<a href=\"" + linkTitle + "\">" + linkTitle + "</a>"
+			return []byte(linkStr)
+		})
+
 	renderedPage := &RenderedPage{
 		Title: p.Title,
 		Body:  template.HTML(bodyRendered)}
@@ -103,9 +108,10 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
-	body := r.FormValue("body")
+	body := strings.Replace(r.FormValue("body"), "\r", "", -1)
 	p := &Page{Title: title, Body: []byte(body)}
 	err := p.save()
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -126,13 +132,15 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
-	http.HandleFunc("/view/", makeHandler(viewHandler))
-	http.HandleFunc("/edit/", makeHandler(editHandler))
-	http.HandleFunc("/save/", makeHandler(saveHandler))
-	http.Handle("/static/", http.StripPrefix("/static", http.FileServer(http.Dir(staticPath))))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 	})
+
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.Handle("/static/", http.StripPrefix("/static",
+		http.FileServer(http.Dir(staticPath))))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
