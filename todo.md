@@ -5,11 +5,11 @@
 	- [X] Validation
 	- [X] Closures
 - [X] Metalint it
-- [O] Other tasks
+- [X] Other tasks
 	- [X] Move pages to data/
 	- [X] Redirect to /view/FrontPage
 	- [X] Spruce it up
-	- [ ] inter-page linking
+	- [X] inter-page linking
 
 - [ ] Markdown rendering
 - [ ] Markdown editing
