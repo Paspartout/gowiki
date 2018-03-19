@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/microcosm-cc/bluemonday"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
@@ -82,6 +83,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 	// Markdown rendering
 	bodyRendered := blackfriday.Run(p.Body)
+	// Sanitize html
+	bodyRendered = bluemonday.UGCPolicy().SanitizeBytes(bodyRendered)
 
 	// Interlinking
 	bodyRendered = linkRegex.ReplaceAllFunc(bodyRendered,

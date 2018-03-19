@@ -11,10 +11,10 @@
 	- [X] Spruce it up
 	- [X] inter-page linking
 - [X] Markdown rendering
+- [X] Sanitizie html after rendering
 
 ## Next
 
-- [ ] Sanitizie html before saving
 - [ ] Use some js markdown editor
 - [ ] Remove cr before rendering instead of saving?(Windows compat)
 - [ ] Add index that simply lists all pages
