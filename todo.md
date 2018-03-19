@@ -15,11 +15,10 @@
 
 ## Next
 
-- [ ] Use some js markdown editor
-- [ ] Remove cr before rendering instead of saving?(Windows compat)
 - [ ] Add index that simply lists all pages
 - [ ] Improve UI
 	- [ ] Material design?
+- [ ] Use some js markdown editor
 
 ## Low Priority
 
@@ -29,4 +28,4 @@
 	- [ ] Develop JS Frontend
 - [ ] Add image upload capability
 - [ ] Pack tmpl into executable
-
+- [ ] Remove cr before rendering instead of saving?(Windows compat)

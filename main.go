@@ -17,13 +17,14 @@ const (
 	extension      = ".md"
 	templatePath   = "tmpl/"
 	dataPath       = "data/"
-	staticPath     = "./static/"
+	staticPath     = "static/"
 	frontPageTitle = "FrontPage"
 )
 
 var templates = template.Must(template.ParseFiles(
 	templatePath+"edit.html",
-	templatePath+"view.html"))
+	templatePath+"view.html",
+	templatePath+"pages.html"))
 
 var validPath = regexp.MustCompile(`^/(view|edit|save)/([a-zA-Z0-9]+)$`)
 var linkRegex = regexp.MustCompile(`\[([a-zA-Z0-9]+)\]`)
@@ -134,11 +135,31 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 	}
 }
 
+func pagesHandler(w http.ResponseWriter, r *http.Request) {
+	dataFiles, err := ioutil.ReadDir(dataPath)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Filter for page files
+	pages := make([]string, 0, len(dataFiles))
+	for _, f := range dataFiles {
+		fName := f.Name()
+		if !f.IsDir() && fName[len(fName)-3:] == extension {
+			pages = append(pages, fName[:len(fName)-3])
+		}
+	}
+
+	renderTemplate(w, "pages", pages)
+}
+
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 	})
 
+	http.HandleFunc("/pages", pagesHandler)
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
