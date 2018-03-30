@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -26,7 +27,8 @@ var templates = template.Must(template.ParseFiles(
 	templatePath+"view.html",
 	templatePath+"pages.html"))
 
-var validPath = regexp.MustCompile(`^/(view|edit|save)/([a-zA-Z0-9]+)$`)
+var validTitle = regexp.MustCompile(`^([a-zA-Z0-9]+)$`)
+var validPath = regexp.MustCompile(`^/(view|edit|save|delete)/([a-zA-Z0-9]+)$`)
 var linkRegex = regexp.MustCompile(`\[([a-zA-Z0-9]+)\]`)
 
 // Page represents a page of the wiki
@@ -59,6 +61,30 @@ func (p *Page) save() error {
 	return nil
 }
 
+// Removes a page
+func (p *Page) remove() error {
+	filename := dataPath + p.Title + extension
+	return os.Remove(filename)
+}
+
+// Renames the page to the new title
+func (p *Page) rename(newTitle string) error {
+	if !validTitle.MatchString(newTitle) {
+		return fmt.Errorf("new title \"%s\" is invalid", newTitle)
+	}
+
+	filename := dataPath + p.Title + extension
+	newFileanme := dataPath + newTitle + extension
+	err := os.Rename(filename, newFileanme)
+	if err != nil {
+		return err
+	}
+
+	p.Title = newTitle
+	return nil
+}
+
+// Loads a page using its title
 func loadPage(title string) (*Page, error) {
 	filename := dataPath + title + extension
 	body, err := ioutil.ReadFile(filename)
@@ -113,14 +139,39 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := strings.Replace(r.FormValue("body"), "\r", "", -1)
+	newTitle := r.FormValue("title")
+
+	// save/overwrite page
 	p := &Page{Title: title, Body: []byte(body)}
 	err := p.save()
-
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	// rename/move page if title was changed
+	if newTitle != title {
+		err := p.rename(newTitle)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		title = newTitle
+	}
+
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
+}
+
+func deleteHandler(w http.ResponseWriter, r *http.Request, title string) {
+	p := Page{Title: title}
+
+	err := p.remove()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 }
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
@@ -163,6 +214,8 @@ func main() {
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/delete/", makeHandler(deleteHandler))
+
 	http.Handle("/static/", http.StripPrefix("/static",
 		http.FileServer(http.Dir(staticPath))))
 

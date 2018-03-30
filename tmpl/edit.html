@@ -13,8 +13,8 @@
 	<a class="navbar-item" href="/">
 		<div class="subtitle">GoWiki</div>
     </a>
-
   </div>
+
   <div class="navbar-menu">
 	  <div class="navbar-end">
 	 <a class="navbar-item" href="/">
@@ -27,30 +27,41 @@
   </div>
 </nav>
 
+<form action="/save/{{.Title}}" method="POST">
+
 <div class="container note">
 <div class="card">
   <header class="card-header">
-    <p class="card-header-title">
-	{{.Title}}
-    </p>
-
+	  <p class="card-header-title">Editing {{.Title}}</p>
   </header>
   <div class="card-content">
     <div class="content">
-		<form action="/save/{{.Title}}" method="POST">
+
 			<div class="field">
+			  <label class="label">Title/Filename</label>
+			  <div class="control">
+				  <input name="title" class="input" type="text" value="{{.Title}}">
+			  </div>
+			</div>
+
+			<div class="field">
+			  <label class="label">Text</label>
 			  <div class="control">
 				<textarea name="body" class="textarea" placeholder="Page Text" rows="30">{{printf "%s" .Body}}</textarea>
 			  </div>
 			</div>
+
 			<input type="submit" value="Save" class="button is-primary">
-		</form>
+			<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
+			<a href="/delete/{{.Title}}" class="button is-danger">Delete</a>
+
     </div>
   </div>
-</div>
-</div>
 
-</div>
+</div> <!-- card -->
+</div> <!-- container node -->
+
+</form>
 
 </body>
 </html>

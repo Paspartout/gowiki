@@ -18,13 +18,17 @@
 
 ### v1
 
-- [ ] Rename, Delete, Abort Buttons
+- [X] Delete, Abort Buttons
+	- [X] Abort
+	- [X] Delete
+- [X] Renaming Pages by changing title
+- [ ] Template Inheritance
+- [ ] Delete Page confirmation
 - [ ] Better All Pages overview
 - [ ] Logo?
 - [ ] Command Line Arguments
 	- [ ] Make dataPath configurable
 - [ ] Pack tmpl into executable
-- [ ] Make server concurrent
 - [ ] LICENSE: MIT
 - [ ] Gitignore
 - [ ] Screenshot for README
