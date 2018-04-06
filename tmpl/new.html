@@ -1,35 +1,34 @@
 {{ template "base" . }}
-{{ define "title" }}Edit {{.Title}}{{ end }}
+{{ define "title" }}{{if .}} Create {{.}} {{else}} Create a new page {{end}}{{ end }}
 {{ define "content" }}
 <div class="card">
   <header class="card-header">
 	  <p class="card-header-title">
-		<span class="icon">
-		<span class="oi" data-glyph="pencil"
-			title="Edit Page"></span>
+		 <span class="icon">
+			<span class="oi" data-glyph="plus"
+				title="Create Page"></span>
 		</span>
-		Edit {{.Title}}</p>
+	  {{if .}} Create {{.}} {{else}} Create a new page {{end}}
+	  </p>
   </header>
   <div class="card-content">
     <div class="content">
-		<form action="/save/{{.Title}}" method="POST">
+		<form action="/save/{{.}}" method="POST">
 			<div class="field">
 			  <label class="label">Title/Filename</label>
 			  <div class="control">
-				  <input name="title" class="input" type="text" value="{{.Title}}">
+				  <input name="title" class="input" type="text" placeholder="Title" value="{{.}}">
 			  </div>
 			</div>
-
 			<div class="field">
 			  <label class="label">Text</label>
 			  <div class="control">
-				<textarea name="body" class="textarea" placeholder="Page Text" rows="30">{{printf "%s" .Body}}</textarea>
+				<textarea name="body" class="textarea" placeholder="Page Text" rows="30"></textarea>
 			  </div>
 			</div>
 
 			<input type="submit" value="Save" class="button is-primary">
-			<a href="/delete/{{.Title}}" class="button is-danger">Delete</a>
-			<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
+			<a href="/view/FrontPage" class="button is-warning">Cancel</a>
 		</form>
     </div>
   </div>

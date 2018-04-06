@@ -25,8 +25,7 @@
 - [X] Template Inheritance
 - [X] Delete Page confirmation
 - [X] New Page Button -> /edit/ creates new page
-- [ ] Favicon
-- [ ] Footer
+- [X] Favicon + Icons
 - [ ] Command Line Arguments
 	- [ ] Make dataPath configurable
 	- [ ] Port
@@ -34,16 +33,16 @@
 - [ ] LICENSE: MIT
 - [ ] Gitignore
 - [ ] Screenshot for README
+- [ ] Update Readme use case
 - [ ] Travis-Ci?
 - [ ] Release binaries?
 
 ### v1.1
 
 - [ ] Support directories
-- [ ] Render static wiki to html
 - [ ] Fancier error pages
 
-## Low Priority
+### Next Versions / Low Priority
 
 - [ ] Offline Caching for Reading
 - [ ] JS Markdown editor
@@ -55,5 +54,6 @@
 	- [ ] Develop JS Frontend
 - [ ] Add image upload capability?
 - [ ] Remove cr before rendering instead of saving?(Windows compat)
+- [ ] Render static wiki to html
 
 vim: ft=vimwiki

@@ -3,8 +3,10 @@
 <html lang="en">
 <head>
 	<title>{{ template "title" . }}</title>
-	<link href="/static/bulma.css" rel="stylesheet"/>
-	<link href="/static/styles.css" rel="stylesheet"/>
+	<link href="/static/css/bulma.css" rel="stylesheet"/>
+	<link href="/static/css/styles.css" rel="stylesheet"/>
+	<link href="/static/css/open-iconic.min.css" rel="stylesheet"/>
+	<link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicon.ico">
 </head>
 
 <body>
@@ -12,6 +14,10 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
 	<a class="navbar-item" href="/">
+		 <span class="icon">
+			<span class="oi" data-glyph="document"
+				title="Gowiki"></span>
+		</span>
 		<div class="subtitle">GoWiki</div>
     </a>
   </div>
@@ -19,12 +25,24 @@
   <div class="navbar-menu">
 	  <div class="navbar-end">
 	 <a class="navbar-item" href="/">
+		 <span class="icon">
+			<span class="oi" data-glyph="home"
+				title="Front Page"></span>
+		</span>
         Front Page
       </a>
 	 <a class="navbar-item" href="/edit">
+		 <span class="icon">
+			<span class="oi" data-glyph="plus"
+				title="Create Page"></span>
+		</span>
         Create page
       </a>
 	 <a class="navbar-item" href="/pages">
+		 <span class="icon">
+			<span class="oi" data-glyph="book"
+				title="All Pages"></span>
+		</span>
 		 All Pages
       </a>
 	  </div>
