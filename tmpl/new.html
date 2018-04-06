@@ -17,7 +17,8 @@
 			<div class="field">
 			  <label class="label">Title/Filename</label>
 			  <div class="control">
-				  <input name="title" class="input" type="text" placeholder="Title" value="{{.}}">
+				  <input name="title" class="input" type="text" value="{{.}}"
+				  placeholder="Title" required pattern="([A-Za-z0-9]+)" autofocus>
 			  </div>
 			</div>
 			<div class="field">

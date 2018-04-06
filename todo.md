@@ -26,6 +26,7 @@
 - [X] Delete Page confirmation
 - [X] New Page Button -> /edit/ creates new page
 - [X] Favicon + Icons
+- [X] Form validation using HTML5
 - [ ] Command Line Arguments
 	- [ ] Make dataPath configurable
 	- [ ] Port
@@ -41,6 +42,7 @@
 
 - [ ] Support directories
 - [ ] Fancier error pages
+- [ ] Warn User: Creating new pages with same title overwrites old ones
 
 ### Next Versions / Low Priority
 

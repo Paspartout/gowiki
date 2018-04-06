@@ -16,14 +16,14 @@
 			<div class="field">
 			  <label class="label">Title/Filename</label>
 			  <div class="control">
-				  <input name="title" class="input" type="text" value="{{.Title}}">
+				  <input name="title" class="input" type="text" value="{{.Title}}" required pattern="([A-Za-z0-9]+)">
 			  </div>
 			</div>
 
 			<div class="field">
 			  <label class="label">Text</label>
 			  <div class="control">
-				<textarea name="body" class="textarea" placeholder="Page Text" rows="30">{{printf "%s" .Body}}</textarea>
+				<textarea name="body" class="textarea" placeholder="Page Text" rows="30" autofocus>{{printf "%s" .Body}}</textarea>
 			  </div>
 			</div>
 
