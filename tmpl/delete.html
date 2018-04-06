@@ -1,0 +1,19 @@
+{{ template "base" . }}
+{{ define "title" }}Deleting {{.Title}}{{ end }}
+{{ define "content" }}
+<div class="card">
+  <header class="card-header">
+	  <p class="card-header-title">Deleting {{.Title}}</p>
+  </header>
+  <div class="content">
+  <div class="card-content">
+	  <p>Do you really want to delete {{.Title}}?</p>
+	<form action="/delete/{{.Title}}" method="POST">
+		<input type="hidden" name="Confirmed" value="True">
+		<input type="submit" value="Delete" class="button is-danger">
+		<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
+	</form>
+  </div>
+  </div>
+</div> <!-- card -->
+{{ end }}

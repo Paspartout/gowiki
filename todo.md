@@ -23,17 +23,25 @@
 	- [X] Delete
 - [X] Renaming Pages by changing title
 - [X] Template Inheritance
-- [ ] Delete Page confirmation
+- [X] Delete Page confirmation
 - [ ] Better All Pages overview
-- [ ] Logo?
+- [ ] New Page Button -> /edit/ creates new page
+- [ ] Favicon
 - [ ] Command Line Arguments
 	- [ ] Make dataPath configurable
+	- [ ] Port
 - [ ] Pack tmpl into executable
 - [ ] LICENSE: MIT
 - [ ] Gitignore
 - [ ] Screenshot for README
 - [ ] Travis-Ci?
 - [ ] Release binaries?
+
+### v1.1
+
+- [ ] Support directories
+- [ ] Render static wiki to html
+- [ ] Fancier error pages
 
 ## Low Priority
 
