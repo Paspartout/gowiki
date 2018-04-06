@@ -27,9 +27,9 @@
 - [X] New Page Button -> /edit/ creates new page
 - [X] Favicon + Icons
 - [X] Form validation using HTML5
-- [ ] Command Line Arguments
-	- [ ] Make dataPath configurable
-	- [ ] Port
+- [X] Command Line Arguments
+	- [X] Make dataPath configurable
+	- [X] Port
 - [ ] Pack tmpl into executable
 - [ ] LICENSE: MIT
 - [ ] Gitignore
@@ -40,12 +40,15 @@
 
 ### v1.1
 
-- [ ] Support directories
+- [ ] Support pages in directories
 - [ ] Fancier error pages
 - [ ] Warn User: Creating new pages with same title overwrites old ones
 
 ### Next Versions / Low Priority
 
+- [ ] Refactor Model and View
+	- [ ] Model: Allow different Backends like sqlite?
+	- [ ] View: No global variables
 - [ ] Offline Caching for Reading
 - [ ] JS Markdown editor
 - [ ] Vim bindings for textedit
@@ -57,5 +60,6 @@
 - [ ] Add image upload capability?
 - [ ] Remove cr before rendering instead of saving?(Windows compat)
 - [ ] Render static wiki to html
+- [ ] Idea: Create and maintain git repo for every edit in wiki
 
 vim: ft=vimwiki

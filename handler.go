@@ -144,6 +144,9 @@ func pagesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func listen(conf Config) error {
+	// TODO: Refactor model
+	dataPath = conf.DataPath
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 	})

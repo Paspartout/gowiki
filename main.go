@@ -1,14 +1,13 @@
 package main
 
 import (
+	"flag"
 	"log"
 )
 
 const (
 	extension      = ".md"
-	dataPath       = "data/"   // TODO: Make configurable through command line flag
-	staticPath     = "static/" // TODO: Pack into executable
-	addr           = ":8080"
+	staticPath     = "static/"
 	frontPageTitle = "FrontPage"
 )
 
@@ -19,10 +18,16 @@ type Config struct {
 	DataPath string // Path to md files
 }
 
+func parseConfig() Config {
+	address := flag.String("address",
+		":8080", "The address to listen to")
+	dataPath := flag.String("path",
+		"data/", "Path to the folder that contains the document files")
+	flag.Parse()
+	return Config{Address: *address, DataPath: *dataPath}
+}
+
 func main() {
-	config := Config{
-		Address:  addr,
-		DataPath: dataPath,
-	}
+	config := parseConfig()
 	log.Fatal(listen(config))
 }

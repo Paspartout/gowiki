@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+var dataPath = "data/"
+
 // Page represents a page of the wiki
 type Page struct {
 	Title string
