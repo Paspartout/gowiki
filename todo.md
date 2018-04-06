@@ -22,7 +22,7 @@
 	- [X] Abort
 	- [X] Delete
 - [X] Renaming Pages by changing title
-- [ ] Template Inheritance
+- [X] Template Inheritance
 - [ ] Delete Page confirmation
 - [ ] Better All Pages overview
 - [ ] Logo?
@@ -48,3 +48,4 @@
 - [ ] Add image upload capability?
 - [ ] Remove cr before rendering instead of saving?(Windows compat)
 
+vim: ft=vimwiki

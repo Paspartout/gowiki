@@ -16,16 +16,21 @@ import (
 
 const (
 	extension      = ".md"
-	templatePath   = "tmpl/"
 	dataPath       = "data/"
 	staticPath     = "static/"
 	frontPageTitle = "FrontPage"
+	templatePath   = "tmpl/"
+	templateBase   = "tmpl/layout/base.html"
 )
 
-var templates = template.Must(template.ParseFiles(
-	templatePath+"edit.html",
-	templatePath+"view.html",
-	templatePath+"pages.html"))
+var templateMap = map[string]*template.Template{
+	"view": template.Must(
+		template.ParseFiles(templateBase, templatePath+"view.html")),
+	"edit": template.Must(
+		template.ParseFiles(templateBase, templatePath+"edit.html")),
+	"pages": template.Must(
+		template.ParseFiles(templateBase, templatePath+"pages.html")),
+}
 
 var validTitle = regexp.MustCompile(`^([a-zA-Z0-9]+)$`)
 var validPath = regexp.MustCompile(`^/(view|edit|save|delete)/([a-zA-Z0-9]+)$`)
@@ -95,7 +100,7 @@ func loadPage(title string) (*Page, error) {
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", p)
+	err := templateMap[tmpl].ExecuteTemplate(w, tmpl+".html", p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

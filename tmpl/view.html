@@ -1,33 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>{{.Title}}</title>
-	<link href="/static/bulma.css" rel="stylesheet"/>
-	<link href="/static/styles.css" rel="stylesheet"/>
-</head>
-
-<body>
-
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-	<a class="navbar-item" href="/">
-		<div class="subtitle">GoWiki</div>
-    </a>
-
-  </div>
-  <div class="navbar-menu">
-	  <div class="navbar-end">
-	 <a class="navbar-item" href="/">
-        Front Page
-      </a>
-	 <a class="navbar-item" href="/pages">
-		 All Pages
-      </a>
-	  </div>
-  </div>
-</nav>
-
-<div class="container note">
+{{ template "base" . }}
+{{ define "title" }}{{.Title}}{{ end }}
+{{ define "content" }}
 <div class="card">
   <header class="card-header">
     <p class="card-header-title">
@@ -44,7 +17,4 @@
     </div>
   </div>
 </div>
-</div>
-
-</body>
-</html>
+{{ end }}

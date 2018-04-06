@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>{{.Title}}</title>
-	<link href="/static/bulma.css" rel="stylesheet"/>
-	<link href="/static/styles.css" rel="stylesheet"/>
-</head>
-
-<body>
-
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-	<a class="navbar-item" href="/">
-		<div class="subtitle">GoWiki</div>
-    </a>
-  </div>
-
-  <div class="navbar-menu">
-	  <div class="navbar-end">
-	 <a class="navbar-item" href="/">
-        Front Page
-      </a>
-	 <a class="navbar-item" href="/pages">
-		 All Pages
-      </a>
-	  </div>
-  </div>
-</nav>
-
-<form action="/save/{{.Title}}" method="POST">
-
-<div class="container note">
+{{ template "base" . }}
+{{ define "title" }}Edit {{.Title}}{{ end }}
+{{ define "content" }}
 <div class="card">
   <header class="card-header">
 	  <p class="card-header-title">Editing {{.Title}}</p>
   </header>
   <div class="card-content">
     <div class="content">
-
+		<form action="/save/{{.Title}}" method="POST">
 			<div class="field">
 			  <label class="label">Title/Filename</label>
 			  <div class="control">
@@ -54,14 +25,8 @@
 			<input type="submit" value="Save" class="button is-primary">
 			<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
 			<a href="/delete/{{.Title}}" class="button is-danger">Delete</a>
-
+		</form>
     </div>
   </div>
-
 </div> <!-- card -->
-</div> <!-- container node -->
-
-</form>
-
-</body>
-</html>
+{{ end }}
