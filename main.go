@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 )
 
 const (
@@ -18,25 +17,6 @@ const (
 type Config struct {
 	Address  string // Adress to bind to
 	DataPath string // Path to md files
-}
-
-func listen(conf Config) error {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
-	})
-
-	// Operations on pages
-	http.HandleFunc("/view/", makeHandler(viewHandler))
-	http.HandleFunc("/edit/", makeHandler(editHandler))
-	http.HandleFunc("/save/", makeHandler(saveHandler))
-	http.HandleFunc("/delete/", makeHandler(deleteHandler))
-
-	// View list of all pages
-	http.HandleFunc("/pages", pagesHandler)
-	http.Handle("/static/", http.StripPrefix("/static",
-		http.FileServer(http.Dir(staticPath))))
-
-	return http.ListenAndServe(conf.Address, nil)
 }
 
 func main() {

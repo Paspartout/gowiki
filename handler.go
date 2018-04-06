@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 
@@ -12,7 +13,7 @@ import (
 )
 
 var validTitle = regexp.MustCompile(`^([a-zA-Z0-9]+)$`)
-var validPath = regexp.MustCompile(`^/(view|edit|save|delete)/([a-zA-Z0-9]+)$`)
+var validPath = regexp.MustCompile(`^/(((view|delete)/([a-zA-Z0-9]+))|((edit|save)/([a-zA-Z0-9]*)))$`)
 var linkRegex = regexp.MustCompile(`\[([a-zA-Z0-9]+)\]`)
 
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -43,19 +44,34 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	renderTemplate(w, "view", renderedPage)
 }
 
+// Handles editing pages or creating a new page
 func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
-	if err != nil {
-		p = &Page{Title: title}
+	if err != nil && os.IsNotExist(err) {
+		renderTemplate(w, "new", title)
+		return
+	} else if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	renderTemplate(w, "edit", p)
 }
 
+// Handles saving and moving pages
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := strings.Replace(r.FormValue("body"), "\r", "", -1)
 	newTitle := r.FormValue("title")
+	if title == "" {
+		title = newTitle // use form title for creating a new page
+	}
 
-	// save/overwrite page
+	// Check for valid title before saving
+	if !validTitle.MatchString(title) {
+		http.Error(w, "Title name is invalid: "+title, http.StatusBadRequest)
+		return
+	}
+
+	// Create or Overwrite page
 	p := &Page{Title: title, Body: []byte(body)}
 	err := p.save()
 	if err != nil {
@@ -63,7 +79,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 		return
 	}
 
-	// rename/move page if title was changed
+	// Rename/Move page if title was changed
 	if newTitle != title {
 		err := p.rename(newTitle)
 		if err != nil {
@@ -95,12 +111,16 @@ func deleteHandler(w http.ResponseWriter, r *http.Request, title string) {
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		m := validPath.FindStringSubmatch(r.URL.Path)
+		// log.Printf("%#v\n", m)
 		if m == nil {
 			http.NotFound(w, r)
 			return
 		}
 
-		fn(w, r, m[2])
+		// m[4]+m[7] is the content of the capture groups that eventually contain
+		// the page title in /edit/title and /save/title but always contain
+		// the page title in /view/title and /delete/title
+		fn(w, r, m[4]+m[7])
 	}
 }
 
@@ -121,4 +141,23 @@ func pagesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderTemplate(w, "pages", pages)
+}
+
+func listen(conf Config) error {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
+	})
+
+	// Operations on pages
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/delete/", makeHandler(deleteHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+
+	// View list of all pages
+	http.HandleFunc("/pages", pagesHandler)
+	http.Handle("/static/", http.StripPrefix("/static",
+		http.FileServer(http.Dir(staticPath))))
+
+	return http.ListenAndServe(conf.Address, nil)
 }

@@ -17,6 +17,8 @@ var templateMap = map[string]*template.Template{
 		template.ParseFiles(templateBase, templatePath+"edit.html")),
 	"delete": template.Must(
 		template.ParseFiles(templateBase, templatePath+"delete.html")),
+	"new": template.Must(
+		template.ParseFiles(templateBase, templatePath+"new.html")),
 	"pages": template.Must(
 		template.ParseFiles(templateBase, templatePath+"pages.html")),
 }

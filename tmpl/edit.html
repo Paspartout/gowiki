@@ -3,7 +3,7 @@
 {{ define "content" }}
 <div class="card">
   <header class="card-header">
-	  <p class="card-header-title">Editing {{.Title}}</p>
+	  <p class="card-header-title">Edit {{.Title}}</p>
   </header>
   <div class="card-content">
     <div class="content">
@@ -23,8 +23,8 @@
 			</div>
 
 			<input type="submit" value="Save" class="button is-primary">
-			<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
 			<a href="/delete/{{.Title}}" class="button is-danger">Delete</a>
+			<a href="/view/{{.Title}}" class="button is-warning">Cancel</a>
 		</form>
     </div>
   </div>

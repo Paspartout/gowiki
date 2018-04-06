@@ -24,9 +24,9 @@
 - [X] Renaming Pages by changing title
 - [X] Template Inheritance
 - [X] Delete Page confirmation
-- [ ] Better All Pages overview
-- [ ] New Page Button -> /edit/ creates new page
+- [X] New Page Button -> /edit/ creates new page
 - [ ] Favicon
+- [ ] Footer
 - [ ] Command Line Arguments
 	- [ ] Make dataPath configurable
 	- [ ] Port
