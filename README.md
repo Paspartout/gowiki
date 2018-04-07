@@ -18,6 +18,8 @@ for what I implented and what I may implement in future versions.
 
 ## Installing
 
+To install gowiki manually from source type the following commands in your terminal:
+
 ```sh
 $ go get -d github.com/Paspartout/gowiki
 $ go get github.com/mjibson/esc # for embedding resource files into executable
@@ -25,6 +27,8 @@ $ cd $GOPATH/src/github.com/Paspartout/gowiki
 $ go generate
 $ go install
 ```
+
+Alternatively you can download the latest realease from the [Github Releases](https://github.com/Paspartout/gowiki/releases).
 
 ## License
 
