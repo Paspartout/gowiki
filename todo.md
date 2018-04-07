@@ -34,10 +34,10 @@
 - [X] LICENSE: MIT
 - [X] 3rd Party licenses
 - [X] Gitignore
-- [ ] Screenshot for README
+- [X] Screenshot for README
 - [X] Update Readme use case
-- [ ] Travis-Ci?
-- [ ] Release binaries?
+- [X] Travis-Ci
+- [X] Release binaries
 
 ### v1.1
 

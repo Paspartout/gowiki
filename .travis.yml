@@ -1,0 +1,22 @@
+language: go
+go:
+- "1.10"
+env:
+- PATH=/home/travis/gopath/bin:$PATH
+before_install:
+- go get github.com/mitchellh/gox
+- go get github.com/mjibson/esc
+- go generate
+script:
+- go build
+after_success:
+- gox -os "linux/amd64 linux/386 linux/arm linux/arm64 windows/amd64 windows/386 darwin/amd64" -output "dist/{{.Dir}}_{{.OS}}_{{.Arch}}"
+deploy:
+  provider: releases
+  api_key:
+    secure: SKTOKEFMuX+wqHMQGF3QFy6P5rMquF3JOhYksZfxZKdEVYSKm/L/7BlV+m/v/eli99TOKX8pg0jT23eQF7IOEjcE3ZVl3UXsCX8xrVc0I95mOW6w80jnj0qNyINLK2CPuY20vcivRo5iXwEDO7M+r8isCfOg0MX4YdVS0ksgCmRR7oB2+cQKrfMbrrc1dKu9Hk56AuDMBWQLJrHNIgwLziUo8frVjuMEmA963zDtahw0dJXb1Uu1JjzGyylQISaXBXCU3xcY1fheYQ8RRDJjLHB2v7jEL+D3IoM+U0cUsKmazaeRd2qOfga2/f72n7NiOboCVFtKfXGFSde9zyYEmdNUuwaLQ5xMf8ipKuAs+St/kEteAoEAOsYeZCJZwBSlte2qQSu7luCnexYTqId8uSSEuiseVmASSaQeKTBxb7CWOaBd57gUSWy7hVdBT6HOVjrlpBSJH7lmWHwxo7EofANiZUHtrdGW7rc/x63nq3dQbgzP1Z2rO8UXUWpFBwnXECb8rGWohqX6E+ST1qLyQdiDjAf9SLHbfaJO359vlqSjgvcr3D5x0GpgGkr9ObN3rfAEhiwm4KG200LNxLAnuZOd6jgAHNYzBIwJKf6EQTx+IvpwqEjLNGWviPSpzK0wlNBqBptrDi7i7XjgrySk/1mc8MlF0XMKdkks69z9c8g=
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  on:
+      tags: true

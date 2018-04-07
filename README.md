@@ -1,5 +1,7 @@
 # Gowiki
 
+[![Build Status](https://travis-ci.org/Paspartout/gowiki.svg?branch=master)](https://travis-ci.org/Paspartout/gowiki)
+
 ![Screenshot](https://paspartout.github.io/gowiki/screenshot.png)
 
 Gowiki started out as an extensions to the 
