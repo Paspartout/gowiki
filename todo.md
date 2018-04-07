@@ -30,7 +30,7 @@
 - [X] Command Line Arguments
 	- [X] Make dataPath configurable
 	- [X] Port
-- [ ] Pack tmpl into executable
+- [X] Pack tmpl/static into executable
 - [ ] LICENSE: MIT
 - [ ] Gitignore
 - [ ] Screenshot for README

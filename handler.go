@@ -3,12 +3,14 @@ package main
 import (
 	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/microcosm-cc/bluemonday"
+	"github.com/paspartout/gowiki/static"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
@@ -147,6 +149,11 @@ func listen(conf Config) error {
 	// TODO: Refactor model
 	dataPath = conf.DataPath
 
+	err := initTemplates(conf.UseLocal)
+	if err != nil {
+		log.Fatal("error initializing templates:", err)
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/view/"+frontPageTitle, http.StatusFound)
 	})
@@ -159,8 +166,8 @@ func listen(conf Config) error {
 
 	// View list of all pages
 	http.HandleFunc("/pages", pagesHandler)
-	http.Handle("/static/", http.StripPrefix("/static",
-		http.FileServer(http.Dir(staticPath))))
+	http.Handle("/static/",
+		http.FileServer(static.FS(conf.UseLocal)))
 
 	return http.ListenAndServe(conf.Address, nil)
 }
