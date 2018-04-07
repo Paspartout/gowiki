@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/paspartout/gowiki/tmpl"
+	"github.com/Paspartout/gowiki/tmpl"
 )
 
 var templateMap map[string]*template.Template

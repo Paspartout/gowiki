@@ -9,8 +9,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/Paspartout/gowiki/static"
 	"github.com/microcosm-cc/bluemonday"
-	"github.com/paspartout/gowiki/static"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
