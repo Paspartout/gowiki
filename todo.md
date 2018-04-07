@@ -31,10 +31,11 @@
 	- [X] Make dataPath configurable
 	- [X] Port
 - [X] Pack tmpl/static into executable
-- [ ] LICENSE: MIT
-- [ ] Gitignore
+- [X] LICENSE: MIT
+- [X] 3rd Party licenses
+- [X] Gitignore
 - [ ] Screenshot for README
-- [ ] Update Readme use case
+- [X] Update Readme use case
 - [ ] Travis-Ci?
 - [ ] Release binaries?
 
