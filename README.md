@@ -1,5 +1,7 @@
 # Gowiki
 
+![Screenshot](https://paspartout.github.io/gowiki/screenshot.png)
+
 Gowiki started out as an extensions to the 
 [golang.org web application](https://golang.org/doc/articles/wiki/) tutorial.
 The idea behind it is to implement a simple file based wiki web application
